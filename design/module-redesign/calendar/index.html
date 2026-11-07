@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendario · prototipo E1</title>
+<link rel="stylesheet" href="../../hub-redesign/shared/base.css">
+<link rel="stylesheet" href="../../hub-redesign/shared/hub-e.css">
+<link rel="stylesheet" href="calendar.css">
+</head>
+<body class="tone-1">
+<div class="banner">PROTOTIPO Calendario · iterazione 2 · riferimento visivo E1 · dati sintetici, «oggi» fissato al 2 novembre 2026 · nessuna scrittura · <a href="../../hub-redesign/e1-strumentazione.html">Hub E1</a> · <a href="../../hub-redesign/index.html">indice</a></div>
+<div class="wrap">
+  <header class="top">
+    <div class="pagehead">
+      <a class="chip back" href="../../hub-redesign/e1-strumentazione.html" aria-label="Torna all'Hub">← Hub</a>
+      <div class="lead"><div class="eyebrow">Sezione</div><h1>POLY<span>LIFE</span> · CALENDARIO</h1></div>
+    </div>
+    <div class="hdr-act">
+      <button class="chip" id="appsBtn"><span class="ic" aria-hidden="true">⊞</span> Tutte le app</button>
+      <button class="chip" id="setBtn"><span class="ic" aria-hidden="true">⚙</span> Impostazioni</button>
+    </div>
+  </header>
+
+  <section class="card toolbar" aria-label="Controlli del calendario">
+    <div class="seg2" role="group" aria-label="Vista calendario">
+      <button data-view="month" aria-pressed="true">Mese</button>
+      <button data-view="week" aria-pressed="false">Settimana</button>
+      <button data-view="day" aria-pressed="false">Giorno</button>
+    </div>
+    <div class="period" id="period" aria-live="polite"></div>
+    <button class="chip" id="today">Oggi</button>
+    <div class="nav3"><button class="chip" id="prev" aria-label="Periodo precedente">‹</button><button class="chip" id="next" aria-label="Periodo successivo">›</button></div>
+  </section>
+
+  <p class="quality" id="quality" role="status" hidden></p>
+  <p class="legend2">Vincoli e attività dalle fonti comuni. Le voci senza orario sono registrazioni o attività da organizzare, non intervalli occupati. Il margine libero del profilo è una quantità di minuti, senza un orario assegnato.</p>
+  <p class="legend2" id="legend-night" hidden><b>Mezzanotte:</b> l'asse va da 00:00 a 24:00. «24:00» è la fine del giorno e coincide con 00:00 del giorno dopo, non è un'ora in più. Un impegno a cavallo di mezzanotte è diviso: fino alle 24:00 (↓) sul giorno di inizio, da 00:00 (↑) sul giorno dopo.</p>
+  <div class="keys" aria-label="Legenda provenienza">
+    <span><i class="sw1" style="--c:var(--k-verifica)"></i> ▣ Verifica</span><span><i class="sw1" style="--c:var(--k-mission)"></i> ◆ Missione</span><span><i class="sw1" style="--c:var(--k-studio)"></i> ● Sessione Studio</span><span><i class="sw1" style="--c:var(--k-checkin)"></i> ✓ Check-in LEO</span><span><i class="sw1" style="--c:var(--k-impegno)"></i> ▪ Orario e impegni</span><span><i class="sw1" style="--c:var(--k-ripetizione)"></i> ↻ Ripetizione</span><span><i class="sw1 untimed" style="--c:var(--text2)"></i> ◌ Senza orario</span><span>⚠ Si sovrappone</span>
+  </div>
+
+  <main class="layout" id="layout">
+    <section class="card gridwrap" id="main" aria-label="Calendario"></section>
+    <aside class="card side" id="panel" aria-label="Dettagli del giorno" aria-live="polite"></aside>
+  </main>
+</div>
+<script src="../../hub-redesign/shared/content.js"></script>
+<script src="calendar.js"></script>
+</body>
+</html>

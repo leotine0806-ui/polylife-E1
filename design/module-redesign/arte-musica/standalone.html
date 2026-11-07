@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="it">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arte & Musica · prototipo E1</title>
+<style>
+/* Token e componenti comuni: stessa identità visiva (scuro, ciano, accenti per area) di PolyLife. */
+:root {
+  --bg: #060a0e; --bg2: #0a1018; --bg3: #0f1820; --bg4: #162030;
+  --border: #1a2a38; --border2: #2a3f52;
+  --text: #e8eef5; --text2: #9db0c2; --text3: #6f8699;
+  --cyan: #00e5ff; --blue: #4f8cff; --purple: #a78bfa; --gold: #fbbf24; --green: #10b981;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r: 14px; --gutter: 16px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 var(--sans);
+  background-image: radial-gradient(900px 420px at 85% -10%, rgba(0,229,255,.07), transparent 60%),
+                    radial-gradient(700px 380px at -10% 0%, rgba(167,139,250,.06), transparent 60%);
+  background-attachment: fixed; overflow-x: hidden;
+}
+h1, h2, h3, p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 14px var(--gutter) 48px; }
+.eyebrow { font: 600 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--text3); }
+.card { background: linear-gradient(180deg, var(--bg3), var(--bg2)); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; min-width: 0; }
+.card h2 { font: 600 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--text2); margin-bottom: 12px; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px;
+  background: var(--bg3); border: 1px solid var(--border2); border-radius: 999px; font-size: 14px; white-space: nowrap;
+}
+.chip:hover { border-color: var(--cyan); }
+.chip.primary { background: var(--cyan); color: #00161a; border-color: var(--cyan); font-weight: 650; }
+.chip .ic { font-size: 16px; opacity: .9; }
+.tag { font: 600 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 7px; border: 1px dashed var(--text3); color: var(--text2); border-radius: 6px; white-space: nowrap; }
+.bar { height: 6px; background: var(--bg4); border-radius: 99px; overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 99px; }
+.ph { border-style: dashed; border-color: var(--border2); background: transparent; }
+.ph p { color: var(--text2); font-size: 13px; }
+.muted { color: var(--text2); font-size: 13px; }
+.banner { background: #1b1405; border-bottom: 1px solid #4a3a10; color: #f2d98a; font: 12px/1.4 var(--mono); padding: 8px var(--gutter); text-align: center; }
+.banner a { color: #ffe9a8; }
+#toast { position: fixed; left: 50%; bottom: 18px; transform: translate(-50%, 20px); background: var(--bg4); border: 1px solid var(--cyan); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; opacity: 0; pointer-events: none; transition: .2s; max-width: calc(100vw - 32px); z-index: 20; }
+#toast.on { opacity: 1; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style><style>
+/* Iterazione 4 (E): stessa struttura, due toni. body.tone-1 = strumentazione sobria; body.tone-2 = centro di controllo. */
+:root { --r: 6px; --led: #34d399; }
+body.tone-2 { background-image: linear-gradient(rgba(0,229,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.045) 1px, transparent 1px), radial-gradient(900px 420px at 85% -10%, rgba(0,229,255,.12), transparent 60%); background-size: 28px 28px, 28px 28px, auto; }
+.card { border-radius: var(--r); position: relative; }
+.card h2 { display: flex; align-items: center; gap: 8px; }
+.card h2::before { content: ""; width: 6px; height: 6px; background: var(--cyan); flex: none; opacity: .7; }
+.tone-2 .card { border-color: rgba(0,229,255,.28); box-shadow: inset 0 0 0 1px rgba(0,229,255,.05), 0 0 18px rgba(0,229,255,.05); }
+.tone-2 .card::before, .tone-2 .card::after { content: ""; position: absolute; width: 12px; height: 12px; border: 2px solid var(--cyan); pointer-events: none; }
+.tone-2 .card::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.tone-2 .card::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+.tone-2 .card h2 { color: var(--cyan); letter-spacing: .2em; }
+.tone-2 .card h2::before { content: "▸"; background: none; width: auto; height: auto; opacity: 1; font-size: 10px; }
+.chip { border-radius: 6px; font-family: var(--mono); font-size: 13px; letter-spacing: .02em; }
+.tone-2 .chip { border-color: rgba(0,229,255,.35); }
+.tone-2 .chip.primary { box-shadow: 0 0 14px rgba(0,229,255,.35); }
+
+/* Intestazione */
+.top { display: flex; align-items: center; gap: 8px 10px; justify-content: space-between; margin-bottom: 10px; }
+.brand { min-width: 0; } .brand b, .brand .eyebrow { white-space: nowrap; }
+.brand b { font: 700 17px/1 var(--mono); letter-spacing: .14em; } .brand b span { color: var(--cyan); }
+.brand b { display: block; }
+.status { display: flex; align-items: center; gap: 6px; margin-top: 6px; font: 600 10px/1 var(--mono); letter-spacing: .12em; color: var(--text3); text-transform: uppercase; }
+.status i { width: 7px; height: 7px; border-radius: 50%; background: var(--led); box-shadow: 0 0 6px var(--led); }
+.tone-2 .status i { animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+.hdr-act { display: flex; gap: 8px; }
+.hdr-act .chip { padding: 0 12px; }
+
+/* Strumenti: livello, XP, streak */
+.gauge { display: grid; gap: 10px 18px; padding: 12px 14px; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "lv st" "xp xp"; align-items: center; }
+.g-lv { grid-area: lv; display: flex; align-items: center; gap: 10px; }
+.g-lv .n { font: 700 34px/1 var(--mono); color: var(--cyan); border: 1px solid var(--border2); padding: 4px 8px; border-radius: 4px; background: var(--bg); min-width: 58px; text-align: center; }
+.g-lv small, .g-st small, .g-xp small { display: block; font: 600 10px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text3); }
+.g-lv b { font-size: 14px; font-weight: 650; }
+.g-xp { grid-area: xp; min-width: 0; }
+.g-xp .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.g-xp .val { font: 700 18px/1 var(--mono); } .g-xp .val span { color: var(--text3); font-weight: 500; font-size: 13px; }
+.g-xp .next { font-size: 12px; color: var(--text2); }
+.seg { height: 14px; background: repeating-linear-gradient(90deg, var(--bg4) 0 6px, transparent 6px 8px); }
+.seg i { display: block; height: 100%; background: repeating-linear-gradient(90deg, var(--cyan) 0 6px, transparent 6px 8px); }
+.tone-2 .seg i { filter: drop-shadow(0 0 4px rgba(0,229,255,.6)); }
+.g-st { grid-area: st; justify-self: end; text-align: right; }
+.g-st b { font: 700 20px/1 var(--mono); } .g-st b span { font-size: 12px; font-weight: 500; color: var(--text2); }
+.ticks { display: flex; gap: 3px; justify-content: flex-end; margin-top: 6px; } .ticks i { width: 6px; height: 12px; background: var(--gold); border-radius: 1px; }
+.tone-2 .ticks i { box-shadow: 0 0 5px rgba(251,191,36,.6); }
+
+/* Prossimo impegno */
+.hero { border-color: rgba(0,229,255,.35); background: linear-gradient(135deg, #0b2230 0%, var(--bg2) 70%); padding: 16px; display: grid; gap: 14px; }
+.hero h1 { font-size: clamp(22px, 5.6vw, 32px); line-height: 1.15; margin: 4px 0; overflow-wrap: break-word; }
+.when { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+.count { font: 700 34px/1 var(--mono); color: var(--cyan); } .count small { font-size: 13px; color: var(--text2); font-weight: 500; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.rec { display: flex; gap: 12px; align-items: center; }
+.ring { --p: 55; width: 56px; height: 56px; border-radius: 50%; background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--bg4) 0); display: grid; place-items: center; flex: none; }
+.ring span { width: 44px; height: 44px; border-radius: 50%; background: var(--bg2); display: grid; place-items: center; font: 600 12px var(--mono); }
+
+.qn { padding: 10px; display: grid; gap: 6px; }
+.qn form { display: flex; gap: 8px; }
+.qn input, .field { flex: 1; min-width: 0; min-height: 44px; background: var(--bg); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); padding: 0 12px; font: inherit; }
+.qn button.save, .btn { min-height: 44px; padding: 0 16px; background: var(--cyan); color: #00161a; border: 0; border-radius: 6px; font-weight: 650; }
+.qn .last { font-size: 12px; color: var(--text3); overflow-wrap: anywhere; } .qn .last b { color: var(--text2); font-weight: 500; }
+.nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.nav .chip { justify-content: flex-start; min-height: 48px; white-space: normal; }
+.nav2 { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.nav2 .chip { min-height: 44px; font-size: 12px; color: var(--text2); padding: 0 12px; }
+
+.body { display: grid; gap: 12px; align-items: start; }
+.col { display: grid; gap: 12px; min-width: 0; }
+.today-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; } .today-h h2 { margin: 0; }
+.exp { min-height: 44px; padding: 0 12px; background: transparent; border: 1px solid var(--border2); border-radius: 6px; font: 600 12px var(--mono); color: var(--text2); display: inline-flex; align-items: center; gap: 6px; }
+.exp:hover { border-color: var(--cyan); color: var(--text); } .exp .ar { transition: transform .2s; } .exp[aria-expanded="true"] .ar { transform: rotate(180deg); }
+.agenda { list-style: none; margin: 0; padding: 0; }
+.agenda li { display: grid; grid-template-columns: 48px 8px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--border); }
+.agenda li:first-child { border-top: 0; } .agenda time { font: 600 13px var(--mono); color: var(--text2); }
+.agenda .t { overflow-wrap: anywhere; } .agenda .t small { color: var(--text3); font-size: 12px; display: block; }
+.agenda li.now time, .agenda li.now .t { color: var(--cyan); }
+.sub { margin: 10px 0 2px; font: 600 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text3); }
+.mission { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.mission input { width: 20px; height: 20px; accent-color: var(--cyan); flex: none; } .mission label { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 14px; }
+.mission input:checked + label { color: var(--text3); text-decoration: line-through; }
+.hint { font-size: 12px; color: var(--text3); margin-top: 6px; }
+.full[hidden] { display: none; }
+
+/* Grafici */
+.tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin-bottom: 10px; }
+.tabs button { min-height: 44px; padding: 0 4px; overflow-wrap: anywhere; background: transparent; border: 1px solid var(--border2); border-radius: 6px; font: 600 12px var(--mono); color: var(--text2); }
+.tabs button[aria-selected="true"] { background: rgba(0,229,255,.12); border-color: var(--cyan); color: var(--text); }
+.wk-sum { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 4px; font-size: 13px; color: var(--text2); } .wk-sum b { color: var(--text); font-weight: 650; }
+.plotbtn { display: block; width: 100%; background: transparent; border: 1px dashed transparent; border-radius: 6px; padding: 18px 0 0; cursor: pointer; text-align: left; }
+.plotbtn:hover { border-color: var(--border2); }
+.plot { position: relative; height: 124px; }
+.plot .g { position: absolute; left: 0; right: 0; border-top: 1px solid var(--border); } .plot .g span { position: absolute; right: 0; top: -15px; font: 10px var(--mono); color: var(--text3); }
+.plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.plot .pt { position: absolute; width: 10px; height: 10px; margin: 5px 0 0 -5px; transform: translateY(-100%); border-radius: 50%; background: var(--bg); border: 2px solid var(--blue); }
+.plot .pt.best { border-color: var(--gold); background: var(--gold); } .plot .pt.today { border-color: var(--cyan); background: var(--cyan); box-shadow: 0 0 0 4px rgba(0,229,255,.18); }
+.plot .bar { position: absolute; width: 8%; margin-left: -4%; border-radius: 2px; }
+.days { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font: 11px var(--mono); color: var(--text3); margin-top: 4px; } .days .today { color: var(--cyan); font-weight: 700; }
+.what { margin-top: 8px; font-size: 12px; color: var(--text2); } .what b { color: var(--text); font-weight: 600; }
+.what small { display: block; color: var(--text3); margin-top: 2px; }
+
+.eq { display: flex; height: 8px; border-radius: 2px; overflow: hidden; gap: 2px; margin-bottom: 8px; } .eq i { display: block; min-width: 3px; }
+.areas a { display: grid; grid-template-columns: 8px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 52px; padding: 4px 0; border-top: 1px solid var(--border); color: inherit; text-decoration: none; }
+.areas a:first-child { border-top: 0; } .areas a:hover .n { color: var(--cyan); }
+.areas .n { font-size: 14px; font-weight: 600; min-width: 0; overflow-wrap: anywhere; } .areas .n small { display: block; font-weight: 400; color: var(--text3); font-size: 12px; }
+.areas .m { font: 600 13px var(--mono); color: var(--text2); text-align: right; white-space: nowrap; }
+.areas .m i { display: block; height: 3px; width: 56px; margin: 4px 0 0 auto; border-radius: 1px; background: var(--bg4); position: relative; overflow: hidden; }
+.areas .m i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--p); background: var(--c); }
+
+/* Idea Hub */
+.idea { border-style: dashed; border-color: var(--border2); background: transparent; padding: 12px 14px; box-shadow: none; }
+.tone-2 .idea::before, .tone-2 .idea::after { display: none; }
+.idea header { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin-bottom: 8px; } .idea h2 { margin: 0; }
+.idea .ex { padding: 10px 12px; border-left: 3px solid var(--purple); background: var(--bg2); border-radius: 0 6px 6px 0; font-size: 14px; overflow-wrap: anywhere; margin-bottom: 6px; } .idea .ex small { display: block; color: var(--text3); margin-top: 2px; }
+.idea .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; } .idea .chip { min-height: 44px; font-size: 12px; color: var(--text2); }
+.idea form { display: flex; gap: 8px; margin-top: 10px; } .idea form[hidden], .prop[hidden] { display: none; }
+.prop { margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--purple); border-radius: 6px; font-size: 14px; } .prop .row { margin-top: 8px; }
+.idea p.note { font-size: 12px; color: var(--text3); margin-top: 8px; }
+
+/* Pannelli (dialog nativo) */
+dialog { color: var(--text); background: var(--bg3); border: 1px solid var(--cyan); border-radius: 8px; padding: 0; width: min(760px, calc(100vw - 16px)); max-height: calc(100vh - 16px); overflow: hidden; box-shadow: 0 20px 70px rgba(0,0,0,.7); }
+dialog[open] { display: flex; flex-direction: column; }
+dialog::backdrop { background: rgba(2,6,10,.72); }
+.dh { display: flex; align-items: center; gap: 10px; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--border2); } .dh h2 { margin: 0; font: 600 12px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); }
+.dh .chip { min-width: 44px; justify-content: center; }
+.db { padding: 12px 14px 16px; overflow: auto; min-height: 0; }
+.sim { font: 600 10px var(--mono); letter-spacing: .1em; color: var(--text3); text-transform: uppercase; margin-bottom: 10px; }
+.grp { margin-top: 12px; } .grp h3 { margin: 0 0 6px; font: 600 10px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--text3); }
+.items { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); }
+.item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; text-align: left; min-width: 0; }
+.item:hover { border-color: var(--cyan); } .item .ic { width: 20px; text-align: center; flex: none; color: var(--cyan); }
+.item .l { min-width: 0; flex: 1; overflow-wrap: anywhere; } .item .l small { display: block; color: var(--text3); font-size: 11px; }
+.empty { color: var(--text3); font-size: 13px; padding: 12px 0; }
+.set { display: grid; gap: 12px; } .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--text2); }
+.badge { font: 600 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 4px 6px; border-radius: 4px; white-space: nowrap; flex: none; }
+.badge.real { background: rgba(16,185,129,.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,.5); }
+.badge.ex { border: 1px dashed var(--text3); color: var(--text2); }
+.sw { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; } .sw .l { flex: 1; min-width: 0; overflow-wrap: anywhere; } .sw .l small { display: block; color: var(--text3); font-size: 11px; }
+.sw input { width: 22px; height: 22px; accent-color: var(--cyan); flex: none; }
+.reduce-motion * { animation: none !important; transition: none !important; }
+
+@media (min-width: 640px) {
+  .nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hero { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: center; padding: 20px; }
+  .gauge { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "lv xp st"; }
+  .items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) { .body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .agenda .t small { display: inline; margin-left: 4px; } }
+@media (max-width: 420px) { .brand .eyebrow { font-size: 10px; letter-spacing: .04em; } .brand b { font-size: 15px; letter-spacing: .08em; } .hdr-act .chip { padding: 0 9px; font-size: 12px; gap: 5px; } .hdr-act .lbl-long { display: none; } }
+@media (max-width: 520px) { .top { flex-wrap: wrap; } .hdr-act { width: 100%; } .hdr-act .chip { flex: 1; justify-content: center; } .hdr-act .lbl-long { display: inline; } }
+
+/* Rifinitura: attività corrente in primo piano, prossimo impegno secondario */
+.top2 { display: grid; gap: 12px; }
+.doing { border-color: rgba(0,229,255,.5); }
+.doing h1 { font-size: clamp(26px, 6.4vw, 38px); }
+.eyebrow .live { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; color: var(--led); } .eyebrow .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--led); box-shadow: 0 0 6px var(--led); }
+.tone-2 .eyebrow .live i { animation: pulse 2s ease-in-out infinite; }
+.prog .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.prog .val { font: 700 30px/1 var(--mono); } .prog .val span { font-size: 13px; color: var(--text2); font-weight: 500; }
+.prog .pc { font: 700 20px/1 var(--mono); color: var(--cyan); }
+.prog .seg { height: 18px; } .prog .seg i { background: repeating-linear-gradient(90deg, var(--c, var(--cyan)) 0 6px, transparent 6px 8px); }
+.elapsed { margin-top: 10px; display: flex; align-items: baseline; gap: 10px; } .elapsed small { font: 600 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--text3); } .elapsed[hidden] { display: none; }
+.elapsed .count { font-size: 22px; }
+.nextc { background: var(--bg2); border-style: dashed; border-color: var(--border2); display: grid; gap: 10px; align-content: start; box-shadow: none; }
+.tone-2 .nextc::before, .tone-2 .nextc::after { display: none; }
+.nextc .nx { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.nextc .at { font: 700 26px/1 var(--mono); color: var(--text); padding-right: 12px; border-right: 1px solid var(--border2); }
+.nextc .t { min-width: 0; overflow-wrap: anywhere; } .nextc .t b { display: block; font-size: 16px; } .nextc .t small { color: var(--text2); font-size: 12px; }
+.nextc .acts { margin-top: 0; } .nextc .chip { min-height: 44px; font-size: 12px; }
+.idea-mini { padding: 6px 2px 0; color: var(--text3); font-size: 12px; display: grid; gap: 4px; }
+.idea-mini .im { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; } .idea-mini .im b { color: var(--text2); font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; } .idea-mini .ex { overflow-wrap: anywhere; }
+.idea-mini .lnk { justify-self: start; min-height: 44px; background: none; border: 0; padding: 0 2px; color: var(--text2); text-decoration: underline; font: 600 12px var(--mono); }
+.idea-mini .note { font-size: 11px; color: var(--text3); }
+@media (min-width: 900px) { .top2 { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: stretch; } .top2 .hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+</style><style>
+a.chip{color:var(--text);text-decoration:none}.pagehead{display:flex;align-items:center;gap:12px;min-width:0}.pagehead .lead{min-width:0}.pagehead .back{flex:none}.pagehead h1{font:700 16px/1.1 var(--mono);letter-spacing:.1em;margin-top:6px}.pagehead h1 span{color:var(--cyan)}@media(max-width:420px){.pagehead h1{font-size:13px;letter-spacing:.04em}.pagehead .eyebrow{font-size:9px;letter-spacing:.04em}}
+.am-shell{display:grid;gap:12px}.am-nav{display:flex;gap:6px;overflow-x:auto;padding:2px 1px 5px}.am-nav button{flex:none;min-height:44px;padding:7px 12px;border:1px solid var(--border2);border-radius:7px;background:transparent;color:var(--text2);font:600 11px/1.3 var(--mono)}.am-nav [aria-current=page]{border-color:var(--cyan);color:var(--text);background:rgba(0,229,255,.1)}
+.am-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(270px,.8fr);gap:12px;align-items:start}.am-stack{display:grid;gap:12px;min-width:0}.am-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border-color:rgba(0,229,255,.32);background:linear-gradient(130deg,rgba(0,229,255,.08),var(--bg2) 62%)}.am-hero h2{font:700 clamp(21px,4vw,29px)/1.15 var(--mono);margin:5px 0}.am-copy{font-size:13px;color:var(--text2);line-height:1.55}.am-statrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.am-stat{padding:10px;border:1px solid var(--border);background:var(--bg2);border-radius:7px}.am-stat b{display:block;font:700 18px var(--mono);color:var(--cyan)}.am-stat span{font-size:11px;color:var(--text2)}.am-mark{width:72px;height:72px;display:grid;place-items:center;border:1px solid var(--border2);border-radius:50%;font-size:29px;color:var(--cyan);background:rgba(0,229,255,.04)}
+.am-form{display:grid;gap:10px}.am-field{display:grid;gap:5px;min-width:0}.am-field label{font-size:12px;color:var(--text2)}.am-field input,.am-field select,.am-field textarea{width:100%;min-height:44px;padding:9px 11px;border:1px solid var(--border2);border-radius:7px;background:var(--bg);color:var(--text);font:14px var(--sans)}.am-field textarea{min-height:90px;resize:vertical}.am-actions{display:flex;flex-wrap:wrap;gap:7px}.am-action{min-height:44px;padding:8px 12px;border:1px solid var(--border2);border-radius:7px;background:var(--bg3);color:var(--text);font:600 11px/1.3 var(--mono)}.am-action:hover{border-color:var(--cyan)}.am-action.primary{border-color:var(--cyan);background:var(--cyan);color:#00161a;font-weight:700}.am-action.ghost{background:transparent;color:var(--text2)}.am-list{display:grid;gap:7px}.am-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:7px;background:var(--bg2)}.am-row .icon{font-size:19px}.am-row b{display:block;font-size:13px}.am-row small{display:block;color:var(--text2);font-size:11px}.am-xp{font:700 11px var(--mono);color:var(--gold);white-space:nowrap}.am-badge{display:inline-flex;align-items:center;min-height:24px;padding:3px 7px;border:1px solid var(--border2);border-radius:999px;color:var(--text2);font:600 10px var(--mono)}.am-badge.art{border-color:rgba(167,139,250,.55);color:#c4b5fd}.am-badge.music{border-color:rgba(79,140,255,.55);color:#93c5fd}.am-notice{padding:10px 12px;border-left:3px solid var(--gold);background:rgba(251,191,36,.07);color:#fde68a;font-size:12px;line-height:1.5}.am-project{display:grid;gap:8px;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg2)}.am-project-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.am-project p{font-size:12px;color:var(--text2);line-height:1.5}.am-skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.am-skill{display:grid;gap:7px;padding:11px;border:1px solid var(--border);border-radius:7px;background:var(--bg2)}.am-skill b{font-size:13px}.am-skill .bar{height:7px}.am-skill .bar i{background:var(--purple)}.am-skill small{font-size:11px;color:var(--text2)}.am-tree-group{display:grid;gap:8px;padding:12px;border:1px solid var(--border);border-radius:8px;background:rgba(10,16,24,.5)}.am-tree-group h3{font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase}.am-tree-node{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px;border:1px solid var(--border2);border-radius:7px;background:var(--bg2)}.am-tree-node .node-icon{display:grid;place-items:center;width:26px;height:26px;border:1px solid var(--border2);border-radius:50%;color:var(--cyan)}.am-tree-node small{display:block;font-size:10px;color:var(--text2)}.am-tree-line{width:2px;height:12px;background:var(--border2);margin-left:22px}.am-coach{border-left:3px solid var(--purple)}.am-result{padding:12px;border:1px dashed var(--purple);border-radius:7px;color:var(--text2);font-size:13px;line-height:1.55}.am-link{display:inline-flex;align-items:center;min-height:36px;padding:5px 9px;border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:12px;overflow-wrap:anywhere;text-decoration:none}.am-link:hover{border-color:var(--cyan);color:var(--text)}.am-history{display:grid;gap:5px}.am-history p{padding:7px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text2)}.am-empty{padding:15px;border:1px dashed var(--border2);border-radius:7px;color:var(--text2);font-size:13px;text-align:center}.am-dialog{width:min(600px,calc(100vw - 28px));max-height:calc(100dvh - 28px);padding:0;color:var(--text);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r)}.am-dialog::backdrop{background:rgba(0,0,0,.72)}.am-dialog .dh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border)}.am-dialog .db{display:grid;gap:12px;padding:16px}
+@media(max-width:800px){.am-grid{grid-template-columns:1fr}.am-hero{grid-template-columns:minmax(0,1fr) auto}}
+@media(max-width:520px){.am-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}.am-nav button{white-space:normal}.am-hero{grid-template-columns:minmax(0,1fr)}.am-mark{width:54px;height:54px}.am-statrow{grid-template-columns:1fr 1fr}.am-stat:last-child{grid-column:1/-1}.am-skills{grid-template-columns:1fr}.am-row{grid-template-columns:auto minmax(0,1fr)}.am-row .am-xp{grid-column:2}}
+.am-link{min-height:44px;min-width:44px;padding:8px 12px;border-radius:7px;background:transparent;color:var(--text2);font:600 12px/1.35 var(--mono);text-decoration:none}.am-link:focus-visible,a.chip:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+</style></head>
+<body class="tone-1">
+<div class="banner">PROTOTIPO ARTE & MUSICA · fixture sintetiche · sessioni, XP, progetti e coach simulati in memoria · nessuna rete o persistenza</div>
+<div class="wrap"><header class="top"><div class="pagehead"><a class="chip back" href="../../hub-redesign/e1-strumentazione.html" aria-label="Torna all'Hub">← Hub</a><div class="lead"><div class="eyebrow">Pratica creativa · portfolio</div><h1>POLY<span>LIFE</span> · ARTE & MUSICA</h1></div></div><div class="hdr-act"><button class="chip" id="appsBtn" type="button">⊞ Tutte le app</button><button class="chip" id="setBtn" type="button">⚙ Impostazioni</button></div></header><main id="root"></main><div id="live" class="sr" role="status" aria-live="polite"></div><dialog id="dlg" aria-labelledby="dlg-title"><div class="dh"><h2 id="dlg-title"></h2><button class="chip" id="dlg-close" type="button" aria-label="Chiudi">✕</button></div><div class="db" id="dlg-body"></div></dialog></div>
+<script>
+(() => {
+  const root = document.querySelector('#root');
+  const live = document.querySelector('#live');
+  const dialog = document.querySelector('#dlg');
+  const state = {
+    view: 'oggi', artXp: 180, musicXp: 145,
+    sessions: [
+      { kind: 'arte', area: 'Disegno', minutes: 25, note: 'Studio di forme e volumi', day: 'Oggi' },
+      { kind: 'musica', area: 'Ascolto attivo', minutes: 20, note: 'Riconoscere il basso', day: 'Ieri' }
+    ],
+    projects: [
+      { id: 'p1', title: 'Studio di luci · demo', kind: 'arte', status: 'In corso', desc: 'Esercizi sintetici di luce e ombra.' },
+      { id: 'p2', title: 'Tema di otto battute · demo', kind: 'musica', status: 'Bozza', desc: 'Idea musicale di prova.' }
+    ], coach: null
+  };
+  const skills = [
+    { name: 'Disegno di base', kind: 'arte', level: 2, pct: 62, next: 'Prospettiva' },
+    { name: 'Composizione visiva', kind: 'arte', level: 1, pct: 38, next: 'Studio del colore' },
+    { name: 'Teoria musicale', kind: 'musica', level: 2, pct: 55, next: 'Armonia' },
+    { name: 'Ritmo e timing', kind: 'musica', level: 1, pct: 44, next: 'Poliritmia' }
+  ];
+
+  function el(tag, attrs = {}, ...children) {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(attrs)) {
+      if (key === 'class') node.className = value;
+      else if (key.startsWith('on')) node.addEventListener(key.slice(2), value);
+      else if (key === 'style') node.setAttribute(key, value);
+      else if (value != null && value !== false) node.setAttribute(key, value === true ? '' : String(value));
+    }
+    for (const child of children.flat()) node.append(child instanceof Node ? child : document.createTextNode(child ?? ''));
+    return node;
+  }
+  const button = (label, action, cls = 'am-action') => el('button', { type: 'button', class: cls, onclick: action }, label);
+  const card = (title, ...children) => el('section', { class: 'card' }, el('h2', {}, title), ...children);
+  const field = (label, control) => { if (!control.id) control.id = `am-field-${Math.random().toString(36).slice(2, 9)}`; return el('div', { class: 'am-field' }, el('label', { for: control.id }, label), control); };
+  const announce = text => { live.textContent = ''; setTimeout(() => { live.textContent = text; }, 25); };
+  const stat = (label, value) => el('div', { class: 'am-stat' }, el('b', {}, String(value)), el('span', {}, label + ' · demo'));
+
+  function hero(title, copy) {
+    return el('section', { class: 'card am-hero' },
+      el('div', {}, el('span', { class: 'eyebrow' }, 'Creatività · demo'), el('h2', {}, title),
+        el('p', { class: 'am-copy' }, copy),
+        el('div', { class: 'am-statrow' }, stat('XP Arte', state.artXp), stat('XP Musica', state.musicXp), stat('Sessioni', state.sessions.length))),
+      el('div', { class: 'am-mark', 'aria-hidden': 'true' }, '✦'));
+  }
+  const navItems = [['oggi', 'Panoramica'], ['arte', 'Arte'], ['musica', 'Musica'], ['portfolio', 'Portfolio'], ['skill', 'Skill'], ['coach', 'Mentor demo']];
+  function shell(content) {
+    const nav = el('nav', { class: 'am-nav', 'aria-label': 'Viste Arte e Musica' });
+    navItems.forEach(([id, label]) => {
+      const item = button(label, () => { state.view = id; render(); }, state.view === id ? 'am-action primary' : 'am-action ghost');
+      if (state.view === id) item.setAttribute('aria-current', 'page');
+      nav.append(item);
+    });
+    root.replaceChildren(el('div', { class: 'am-shell' }, nav, content));
+  }
+  function sessionList(kind = null) {
+    const sessions = state.sessions.filter(item => !kind || item.kind === kind);
+    if (!sessions.length) return el('div', { class: 'am-empty' }, 'Nessuna sessione nella demo.');
+    return el('div', { class: 'am-list' }, sessions.slice(0, 6).map(item =>
+      el('div', { class: 'am-row' }, el('span', { class: 'icon', 'aria-hidden': 'true' }, item.kind === 'arte' ? '✎' : '♫'),
+        el('div', {}, el('b', {}, item.area + (item.instrument ? ' · ' + item.instrument : '')),
+          el('small', {}, `${item.minutes} min · ${item.day}${item.note ? ' · ' + item.note : ''}`)), el('span', { class: 'am-xp' }, 'demo'))));
+  }
+  function projectRow(project) {
+    return el('article', { class: 'am-project' },
+      el('div', { class: 'am-project-head' }, el('div', {}, el('span', { class: 'am-badge ' + (project.kind === 'arte' ? 'art' : 'music') }, project.kind === 'arte' ? 'Arte' : 'Musica'), el('h3', {}, project.title)), el('span', { class: 'tag' }, project.status)),
+      el('p', {}, project.desc),
+      el('div', { class: 'am-actions' },
+        button('Cambia stato demo', () => { project.status = project.status === 'In corso' ? 'Completato' : 'In corso'; render(); announce('Stato progetto cambiato solo nella demo'); }),
+        button('Rimuovi demo', () => { state.projects = state.projects.filter(item => item.id !== project.id); render(); announce('Progetto rimosso dalla demo'); }, 'am-action ghost')));
+  }
+  function today() {
+    const links = el('div', { class: 'am-actions' },
+      el('a', { class: 'am-link', href: '../engineer/index.html' }, 'Engineer'),
+      el('a', { class: 'am-link', href: '../life-rpg/index.html' }, 'Life RPG'),
+      el('a', { class: 'am-link', href: '../jarvis/index.html' }, 'Jarvis'));
+    const side = el('aside', { class: 'am-stack' },
+      card('Ritmo della demo', el('div', { class: 'am-statrow' }, stat('Serie', '3 giorni'), stat('Arte', state.sessions.filter(s => s.kind === 'arte').length), stat('Musica', state.sessions.filter(s => s.kind === 'musica').length)), el('p', { class: 'am-copy' }, 'La serie è una fixture dimostrativa, non un dato personale.')),
+      card('Proprietà dei dati', el('p', { class: 'am-copy' }, 'Questa sezione tiene sessioni e portfolio creativi. Engineer conserva i progetti tecnici; Life RPG mostra la progressione generale. Nessuna fonte personale è collegata.'), links),
+      card('Spunto statico', el('p', { class: 'am-copy' }, 'Confronta una sessione di studio tecnico con una breve pratica libera. È un suggerimento fisso, non generato da AI.')));
+    shell(el('div', {}, hero('Una pratica creativa alla volta', 'Scegli Arte o Musica, registra una sessione sintetica e rivedi i progetti. XP e registrazioni vivono solo in questa scheda.'),
+      el('div', { class: 'am-grid', style: 'margin-top:12px' },
+        el('div', { class: 'am-stack' }, card('Scegli una pratica', el('div', { class: 'am-actions' }, button('✎ Apri Arte', () => { state.view = 'arte'; render(); }, 'am-action primary'), button('♫ Apri Musica', () => { state.view = 'musica'; render(); })), el('p', { class: 'am-copy' }, 'Registra durata, area e una nota nella vista dedicata.')), card('Sessioni recenti', sessionList()), card('Portfolio creativo', state.projects.length ? el('div', { class: 'am-list' }, state.projects.map(projectRow)) : el('div', { class: 'am-empty' }, 'Nessun progetto demo.'))), side)));
+  }
+  function practice(kind) {
+    const art = kind === 'arte';
+    const areas = art ? ['Disegno', 'Pittura', 'Design visivo', 'Composizione visiva', 'Anatomia artistica', 'Portfolio'] : ['Teoria musicale', 'Ritmo e timing', 'Ascolto attivo', 'Composizione', 'Analisi musicale', 'Pratica strumento'];
+    const form = el('form', { class: 'am-form', onsubmit: event => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const minutes = Number(data.get('minutes'));
+      if (!Number.isInteger(minutes) || minutes < 1 || minutes > 300) { announce('Inserisci una durata da 1 a 300 minuti.'); return; }
+      const xp = Math.max(5, Math.round(minutes * (art ? 0.4 : 0.45)));
+      state.sessions.unshift({ kind, area: String(data.get('area')), instrument: String(data.get('instrument') || ''), minutes, note: String(data.get('note') || '').trim(), day: 'Ora · demo' });
+      if (art) state.artXp += xp; else state.musicXp += xp;
+      event.currentTarget.reset(); render(); announce(`Sessione ${art ? 'Arte' : 'Musica'} simulata · +${xp} XP`);
+    } });
+    form.append(field('Area di pratica', el('select', { name: 'area' }, areas.map(area => el('option', { value: area }, area)))));
+    if (!art) form.append(field('Strumento (facoltativo)', el('input', { name: 'instrument', maxlength: 80, placeholder: 'Chitarra, piano, voce…' })));
+    form.append(field('Minuti praticati', el('input', { name: 'minutes', type: 'number', min: 1, max: 300, value: 25, required: true })),
+      field('Nota della sessione (facoltativa)', el('textarea', { name: 'note', maxlength: 500, placeholder: 'Che cosa hai provato?' })),
+      el('div', { class: 'am-notice' }, 'Registrazione e XP sono simulati; non vengono salvati nel profilo PolyLife.'),
+      el('button', { class: 'am-action primary', type: 'submit' }, `Registra sessione demo · ${art ? 'Arte' : 'Musica'}`));
+    const quick = art ? [['Pratica libera', 10], ['Studio tecnico', 25], ['Opera completata', 40], ['Analisi artista', 15]] : [['Pratica libera', 10], ['Teoria musicale', 20], ['Ascolto attivo', 25], ['Composizione breve', 40]];
+    const references = art ? ['Andrew Loomis · proporzioni', 'Sargent · pennellata', 'Kim Jung Gi · memoria spaziale', 'Bridgman · anatomia'] : ['Bach · contrappunto', 'Coltrane · modal jazz', 'Radiohead · poliritmia', 'Debussy · colore armonico'];
+    const quickCard = card('Azioni XP rapide · demo', el('p', { class: 'am-copy' }, 'XP aggiunti solo allo stato volatile della pagina.'), el('div', { class: 'am-actions' }, quick.map(([label, xp]) => button(`${label} · +${xp} XP`, () => { if (art) state.artXp += xp; else state.musicXp += xp; render(); announce(`${xp} XP simulati`); }))));
+    shell(el('div', {}, hero(art ? 'Arte · pratica visiva' : 'Musica · pratica e ascolto', art ? 'Disegno, pittura, composizione visiva e portfolio. La sessione non assegna una valutazione tecnica.' : 'Teoria, ritmo, ascolto, composizione, analisi e strumento. Nessuna valutazione di competenza.'),
+      el('div', { class: 'am-grid', style: 'margin-top:12px' }, el('div', { class: 'am-stack' }, card('Registra una sessione', form), quickCard),
+        el('aside', { class: 'am-stack' }, card(`Registro ${art ? 'Arte' : 'Musica'}`, sessionList(kind)), card(art ? 'Artisti di riferimento' : 'Ascolti da esplorare', el('div', { class: 'am-list' }, references.map(ref => {
+          const [name, detail] = ref.split(' · ');
+          return el('div', { class: 'am-row' }, el('span', { class: 'icon', 'aria-hidden': 'true' }, art ? '✎' : '♫'), el('div', {}, el('b', {}, name), el('small', {}, detail)), el('span', { class: 'am-badge ' + (art ? 'art' : 'music') }, 'demo'));
+        })))))));
+  }
+  function portfolio() {
+    const projects = state.projects.length ? el('div', { class: 'am-list' }, state.projects.map(projectRow)) : el('div', { class: 'am-empty' }, 'Il portfolio demo è vuoto.');
+    const categories = ['Studi visivi', 'Opere e serie', 'Composizioni', 'Esperimenti sonori'];
+    shell(el('div', {}, hero('Portfolio creativo', 'Progetti di Arte e Musica in una vista sola. I progetti tecnici restano in Engineer.'),
+      el('div', { class: 'am-grid', style: 'margin-top:12px' }, card('Progetti', el('div', { class: 'am-actions' }, button('+ Nuovo progetto demo', openProject, 'am-action primary')), projects),
+        card('Aree del portfolio', el('div', { class: 'am-list' }, categories.map(name => el('div', { class: 'am-row' }, el('span', { class: 'icon' }, '◇'), el('div', {}, el('b', {}, name), el('small', {}, 'Categoria dimostrativa')), el('span', { class: 'am-badge' }, 'demo')))), el('p', { class: 'am-copy' }, 'Riferimenti a file e link non vengono aperti in questa demo.')))));
+  }
+  function tree(kind) {
+    const art = kind === 'arte';
+    const names = art ? ['Fondamenti del disegno', 'Prospettiva', 'Composizione visiva', 'Teoria del colore'] : ['Ascolto e ritmo', 'Teoria musicale', 'Armonia', 'Composizione'];
+    const nodes = names.map((name, index) => el('div', { class: 'am-tree-node' }, el('span', { class: 'node-icon', 'aria-hidden': 'true' }, index ? '◇' : '✦'), el('span', {}, el('b', {}, name), el('small', {}, index ? `Richiede ${names[index - 1]}` : 'Fondamento del percorso')), el('span', { class: 'am-badge ' + (!index ? 'art' : '') }, index === 0 ? 'Esempio base' : index === 1 ? 'In percorso · demo' : 'Bloccata · esempio')));
+    return card(`Percorso ${art ? 'Arte' : 'Musica'} · demo`, el('div', { class: 'am-tree-group' }, el('h3', {}, art ? 'Fondamenta visive' : 'Fondamenta musicali'), nodes), el('p', { class: 'am-copy' }, 'Percorso illustrativo: livelli e requisiti non sono stati verificati su una persona.'));
+  }
+  function skillView() {
+    const progress = card('Progressi illustrativi', el('div', { class: 'am-skills' }, skills.map(skill =>
+      el('div', { class: 'am-skill' }, el('div', { class: 'am-project-head' }, el('b', {}, skill.name), el('span', { class: 'am-badge ' + (skill.kind === 'arte' ? 'art' : 'music') }, `Lv ${skill.level} · demo`)),
+        el('div', { class: 'bar' }, el('i', { style: `width:${skill.pct}%` })), el('small', {}, `${skill.pct}% · prossimo nodo: ${skill.next}`)))));
+    const warning = card('Nessuna valutazione personale', el('p', { class: 'am-notice' }, 'Non è stato fatto alcun test delle skill. I livelli mostrati sono fixture.'));
+    shell(el('div', {}, hero('Percorsi creativi', 'Skill e progressi d’esempio. Non sono una valutazione delle tue capacità.'),
+      el('div', { class: 'am-grid', style: 'margin-top:12px' }, el('div', { class: 'am-stack' }, tree('arte'), tree('musica')), el('aside', { class: 'am-stack' }, progress, warning))));
+  }
+  function coachView() {
+    const panels = ['arte', 'musica'].map(kind => {
+      const isArt = kind === 'arte';
+      const panel = card(isArt ? 'Mentor Arte · demo' : 'Mentor Musica · demo', el('p', { class: 'am-copy' }, isArt ? 'Tecnica, stile, composizione e portfolio.' : 'Teoria, composizione, ascolto e strumento.'),
+        el('div', { class: 'am-notice' }, 'Nessuna AI viene chiamata. Il testo d’esempio è statico.'),
+        field('Tema', el('select', { id: `theme-${kind}` }, (isArt ? ['Disegno', 'Composizione', 'Colore'] : ['Teoria', 'Ritmo', 'Ascolto']).map(x => el('option', {}, x)))),
+        field('Domanda di prova', el('textarea', { id: `ask-${kind}`, maxlength: 500, placeholder: 'Scrivi una richiesta sintetica…' })),
+        el('div', { class: 'am-actions' }, button('Mostra risposta statica', () => {
+          const area = document.getElementById(`theme-${kind}`).value;
+          state.coach = { kind, area, text: isArt ? 'Prova a costruire la scena con tre masse grandi prima di rifinire i dettagli.' : 'Batti il ritmo lentamente e individua l’accento prima di aumentare la velocità.' };
+          render(); announce('Risposta statica di esempio; nessuna AI chiamata');
+        }, 'am-action primary')));
+      if (state.coach?.kind === kind) panel.append(el('div', { class: 'am-result' }, `Esempio statico · ${state.coach.area}: ${state.coach.text}`));
+      return panel;
+    });
+    panels.push(card('Limiti della demo', el('div', { class: 'am-list' }, ['La domanda resta nel browser e non viene inviata.', 'La risposta non è generata da un modello.', 'Nessuna nota, skill o sessione personale viene letta.'].map(text => el('div', { class: 'am-row' }, el('span', { class: 'icon' }, '◇'), el('div', {}, el('b', {}, text)))))));
+    shell(el('div', {}, hero('Mentor creativi · anteprima', 'Interfaccia dimostrativa per un futuro coach. Dati e risposta restano locali alla pagina.'), el('div', { class: 'am-grid', style: 'margin-top:12px' }, el('div', { class: 'am-stack' }, panels))));
+  }
+  function openProject() {
+    const form = el('form', { class: 'am-form', onsubmit: event => {
+      event.preventDefault(); const data = new FormData(event.currentTarget); const title = String(data.get('title') || '').trim();
+      if (!title) return;
+      state.projects.unshift({ id: 'p-' + Date.now(), title, kind: String(data.get('kind')), status: 'Bozza', desc: String(data.get('desc') || '') });
+      dialog.close(); render(); announce('Progetto aggiunto soltanto alla demo');
+    } });
+    form.append(field('Nome progetto', el('input', { name: 'title', maxlength: 100, required: true, placeholder: 'Titolo sintetico' })),
+      field('Area', el('select', { name: 'kind' }, el('option', { value: 'arte' }, 'Arte'), el('option', { value: 'musica' }, 'Musica'))),
+      field('Descrizione', el('textarea', { name: 'desc', maxlength: 500, placeholder: 'Obiettivo o tecnica, solo demo' })),
+      el('div', { class: 'am-actions' }, el('button', { type: 'submit', class: 'am-action primary' }, 'Crea progetto demo'), button('Annulla', () => dialog.close(), 'am-action ghost')));
+    document.getElementById('dlg-title').textContent = 'Nuovo progetto creativo';
+    document.getElementById('dlg-body').replaceChildren(form); dialog.showModal(); form.querySelector('input').focus();
+  }
+  function globalDialog(title) {
+    document.getElementById('dlg-title').textContent = title;
+    document.getElementById('dlg-body').replaceChildren(el('p', { class: 'am-copy' }, 'Anteprima di design: nessuna impostazione o app viene aperta o modificata.'));
+    dialog.showModal();
+  }
+  /* Dopo ogni ridisegno il focus torna sul controllo appena usato (stesso testo), così la tastiera non riparte dall'inizio. */
+  function render() {
+    const prev = document.activeElement, key = prev && root.contains(prev) ? (prev.getAttribute('aria-label') || prev.textContent.trim()) : null, top = window.scrollY;
+    const pages = { oggi: today, arte: () => practice('arte'), musica: () => practice('musica'), portfolio, skill: skillView, coach: coachView };
+    (pages[state.view] || today)();
+    if (key) { const t = [...root.querySelectorAll('button,a,input,select,textarea')].find(e => (e.getAttribute('aria-label') || e.textContent.trim()) === key) || root.querySelector('.am-nav [aria-current=page]'); if (t) t.focus({ preventScroll: true }); window.scrollTo(0, top); }
+  }
+  document.getElementById('dlg-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  document.getElementById('appsBtn').addEventListener('click', () => globalDialog('Tutte le app'));
+  document.getElementById('setBtn').addEventListener('click', () => globalDialog('Impostazioni'));
+  render();
+})();
+</script></body></html>

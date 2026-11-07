@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flashcard · prototipo E1</title>
+<link rel="stylesheet" href="../../hub-redesign/shared/base.css">
+<link rel="stylesheet" href="../../hub-redesign/shared/hub-e.css">
+<link rel="stylesheet" href="flashcards.css">
+</head>
+<body class="tone-1">
+<div class="banner">DEMO · DATI SINTETICI · NESSUNA RETE O SALVATAGGIO · <a href="../../hub-redesign/e1-strumentazione.html">Hub E1</a> · <a href="../../hub-redesign/index.html">Indice</a></div>
+<div class="wrap">
+  <header class="top">
+    <div class="pagehead">
+      <a class="chip back" href="../../hub-redesign/e1-strumentazione.html" aria-label="Torna all'Hub">← Hub</a>
+      <div class="lead"><div class="eyebrow">Ripasso a intervalli</div><h1>POLY<span>LIFE</span> · FLASHCARD</h1></div>
+    </div>
+    <div class="hdr-act">
+      <button class="chip" id="appsBtn" type="button"><span class="ic" aria-hidden="true">⊞</span> Tutte le app</button>
+      <button class="chip" id="setBtn" type="button"><span class="ic" aria-hidden="true">⚙</span> Impostazioni</button>
+    </div>
+  </header>
+  <main id="root"></main>
+  <div id="live" class="sr" role="status" aria-live="polite"></div>
+  <dialog id="dlg" aria-labelledby="dlg-t"><div class="dh"><h2 id="dlg-t"></h2><button class="chip" type="button" id="dlg-x" aria-label="Chiudi">✕</button></div><div class="db" id="dlg-b"></div></dialog>
+</div>
+<script src="../../hub-redesign/shared/content.js"></script>
+<script src="flashcards.js"></script>
+</body>
+</html>

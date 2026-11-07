@@ -1,0 +1,262 @@
+{
+  "title": "PolyLife E1 approved design",
+  "approvedAt": "2026-11-04",
+  "approval": "User approved Hub E1 and all 18 current module prototypes as design only",
+  "applicationBase": "e7ddc1f4887e36c612caa77c8075d1473f94f937",
+  "designWorktreeHead": "77ee7926735cf752b919c60337f96fcde8baee2a",
+  "filesCount": 63,
+  "files": [
+    {
+      "path": "hub-redesign/e1-strumentazione.html",
+      "sha256": "4542fc33681796e49ef8c0426eadd77ade8f64cb903bd06c2b9c8548506b6d5f"
+    },
+    {
+      "path": "hub-redesign/index.html",
+      "sha256": "7bae7d21d044d41d2a11dfe567b64b0409ef9fa5eeb6575d48f215342e90d63b"
+    },
+    {
+      "path": "hub-redesign/shared/base.css",
+      "sha256": "1dc11898fcccc54e414ec2f672374c108d7d8b07bfe614770792d444f397bae2"
+    },
+    {
+      "path": "hub-redesign/shared/content.js",
+      "sha256": "9240dad98ae504e70efa8e3ca88026529550b427e947a493077d146376389c9d"
+    },
+    {
+      "path": "hub-redesign/shared/hub-e.css",
+      "sha256": "3422bec0ff8ead9b0ff55d50790f25fd67ea43b27ccaeddccfb600675c0b0f73"
+    },
+    {
+      "path": "hub-redesign/shared/hub-e.js",
+      "sha256": "af537a9267305e4c0997e7ecc41779f8d3ed04d0da9382947a1cbd4fbb0664eb"
+    },
+    {
+      "path": "module-redesign/agent-center/agent-center.css",
+      "sha256": "e641cdac9812414b00a7a51e4dd48c163869e70ea95fccaa02ab92f4fcd912c5"
+    },
+    {
+      "path": "module-redesign/agent-center/agent-center.js",
+      "sha256": "8a90dc1cb3dd6ee7afa1f792702105097ebe1c597366a9087e4033cac8d39ae9"
+    },
+    {
+      "path": "module-redesign/agent-center/index.html",
+      "sha256": "768f88177d1614e41519d02fbc0c25ff1d430e743ce27026037798637bef7b6e"
+    },
+    {
+      "path": "module-redesign/agent-center/standalone.html",
+      "sha256": "7b14ed01d8d2956527e3a03b42d7ed3a989ca0cf51561c36bbdad16c324a1150"
+    },
+    {
+      "path": "module-redesign/agora/ag.css",
+      "sha256": "a0821e6c04cce8276077340820f6766628ad052c418c621657a10b1034279f0e"
+    },
+    {
+      "path": "module-redesign/agora/ag.js",
+      "sha256": "a31ef41e29e26cca201ffa59af089c6e3da5e7efa8f2651e7e541c2bdc71b74b"
+    },
+    {
+      "path": "module-redesign/agora/index.html",
+      "sha256": "8df851bd00041b73b82dc3543205523de705e67622cebc8541daa5551c5c4e75"
+    },
+    {
+      "path": "module-redesign/arte-musica/creative.css",
+      "sha256": "9e26db0310508a770610f815de250e51d03816bb05808e36a00fb503cbff6fee"
+    },
+    {
+      "path": "module-redesign/arte-musica/creative.js",
+      "sha256": "4e80c0ab872d54329b6cc6e28681307c61c3249a3dcac67836c75309017678ca"
+    },
+    {
+      "path": "module-redesign/arte-musica/index.html",
+      "sha256": "9ef2a63c1e2c3a546a912ed3c3bbbf3374efdd6e5645944bf21d2502184a53df"
+    },
+    {
+      "path": "module-redesign/arte-musica/standalone.html",
+      "sha256": "9cf3b36114dd81ab9cea9e3d8bdce450ad0a7b94dd6ab97cc45a2dc11391432e"
+    },
+    {
+      "path": "module-redesign/calendar/calendar.css",
+      "sha256": "590be86b07f05073779897974d330bf8b7a83ff1148ac569d28fa4e5fc2580c7"
+    },
+    {
+      "path": "module-redesign/calendar/calendar.js",
+      "sha256": "8329d90bc5871c27fd606b51115bffa4b29f724d67c51b902305fe67f579b78b"
+    },
+    {
+      "path": "module-redesign/calendar/index.html",
+      "sha256": "ffadd6b0f352530b281e168fb16997c6034d28053d7d9c6c745d1b36d23a2db8"
+    },
+    {
+      "path": "module-redesign/diary/diary.css",
+      "sha256": "cf29213fb9200325a19122ef217a8bc0ac29cc67def0ff3db6de6d178bc780b8"
+    },
+    {
+      "path": "module-redesign/diary/diary.js",
+      "sha256": "2cf9ed2690e13153f5f33dbe6f19dc47ad8a221f318f52241875a069596e8010"
+    },
+    {
+      "path": "module-redesign/diary/index.html",
+      "sha256": "0a3c04dadfbc0e62781358442925345e8913388cfebe9c329e7cd72f4380e97a"
+    },
+    {
+      "path": "module-redesign/engineer/en.css",
+      "sha256": "415dceb9a698dd8c4bcd3e477adf42853c05a310f7d8a82f279e521a472b2757"
+    },
+    {
+      "path": "module-redesign/engineer/en.js",
+      "sha256": "128df44cf7036c0737c24ae0505b7c3add2a86fc4372b518fc8b0d5fad5367a4"
+    },
+    {
+      "path": "module-redesign/engineer/index.html",
+      "sha256": "5f79c5712c81c064db18e5c4862efeb7b253be01aa61ec6bc6e66439c8e3339c"
+    },
+    {
+      "path": "module-redesign/flashcards/flashcards.css",
+      "sha256": "54cbf03ae5d88d140795935073e686e7be2929de5dade743e209bf5e5ac0f448"
+    },
+    {
+      "path": "module-redesign/flashcards/flashcards.js",
+      "sha256": "16ca9a9027df60424eb1a098573e6db0e3b64964db18c7478d7a6b6f6ceb0a06"
+    },
+    {
+      "path": "module-redesign/flashcards/index.html",
+      "sha256": "4081844f201c17bafd7a6cdf013031e3adf147e7010b698ac21316f476599c0c"
+    },
+    {
+      "path": "module-redesign/jarvis/index.html",
+      "sha256": "50f1408a3efaaa140a0cb36d2e2bb48f939c11cb60a996cbb368d7479e20185a"
+    },
+    {
+      "path": "module-redesign/jarvis/jarvis.css",
+      "sha256": "a6f0cff3a14fa3fe07626ea395f3cccfdb87bb64a1a314840eb40be7083ef115"
+    },
+    {
+      "path": "module-redesign/jarvis/jarvis.js",
+      "sha256": "c832fdca602539be54f1f0075db106a8535951dfe26b0de5c2c10b92e932c6de"
+    },
+    {
+      "path": "module-redesign/leo/index.html",
+      "sha256": "531efe2084b8d3b8b86abdcfac0d48110c1731963bdc08e88d8f981e16189b08"
+    },
+    {
+      "path": "module-redesign/leo/leo.css",
+      "sha256": "1c04e8788067289720e380e99821557128855fc8c8511b8c28b8f75d52860c7a"
+    },
+    {
+      "path": "module-redesign/leo/leo.js",
+      "sha256": "1ec8c272c842a38e11a6454b7117a5234dc48bd688e2d9547f8f062e9746c0a6"
+    },
+    {
+      "path": "module-redesign/library/index.html",
+      "sha256": "c1a6bf29f203f0552bf58fbaaab1839e20940fa918909202ee8022e5552910c9"
+    },
+    {
+      "path": "module-redesign/library/library.css",
+      "sha256": "cfda93eda564fb8123094ce36c13f2f87efc0148a8fea29099985459e784f5d2"
+    },
+    {
+      "path": "module-redesign/library/library.js",
+      "sha256": "d19881063804c63de6cc2761f7f3ffcced9694df6f38a133e4afb6c2baf45456"
+    },
+    {
+      "path": "module-redesign/life-rpg/index.html",
+      "sha256": "bc7ecb5c4c8514bae7b24781cd60e44c5373b69d6be848db5e6a4bdbb8de5b06"
+    },
+    {
+      "path": "module-redesign/life-rpg/life-rpg.css",
+      "sha256": "5531f00d14cc98f8b9a0e2835976ee62f2fc29d946e342cccd6141073e5bbf18"
+    },
+    {
+      "path": "module-redesign/life-rpg/life-rpg.js",
+      "sha256": "07ab234e113bf6b6383b22cfcba1766fea82a4c0ddf2c21b5e453e7fa771379e"
+    },
+    {
+      "path": "module-redesign/missions/index.html",
+      "sha256": "2f4d0cea37c4282fe0f6a55dc73998f6733dc315fed6b98eb7e6ed85fd4fab60"
+    },
+    {
+      "path": "module-redesign/missions/missions.css",
+      "sha256": "444bfa0ece247fd27ebfd77821c4ae48177c1f1d9b780dc1a93e977ea5c6c8eb"
+    },
+    {
+      "path": "module-redesign/missions/missions.js",
+      "sha256": "7a995be96e0949cedada746e528eee0086295c7e951fa2e7e5a12c24d4e5d5a5"
+    },
+    {
+      "path": "module-redesign/nexus/index.html",
+      "sha256": "fd3a041f56d8795d198166b5cc9c00663682b336a9794cfd2357d2a7b9f27171"
+    },
+    {
+      "path": "module-redesign/nexus/nx.css",
+      "sha256": "aadadf1f57ca9820ce77163c6cdd66cfab4ece318cf6f0fff0a2aca3991c3a5c"
+    },
+    {
+      "path": "module-redesign/nexus/nx.js",
+      "sha256": "ea583c42206de6ea62249d412e3bcc2e25f2c79758584d068807855a63ef1acf"
+    },
+    {
+      "path": "module-redesign/planner/index.html",
+      "sha256": "e7ea7d7a8413585f696d3f07b633b1684160a02ae240b887c006ac9c7f7ef10c"
+    },
+    {
+      "path": "module-redesign/planner/planner.css",
+      "sha256": "d8704343dde71487efa1cbfe56a4a8c9021733dfb2829e3d2d133aef0e68f48c"
+    },
+    {
+      "path": "module-redesign/planner/planner.js",
+      "sha256": "4727a9d5facaee984b43338a97b4a878a6d865b97e27026d5ae9d025ce46d930"
+    },
+    {
+      "path": "module-redesign/polyfeed/index.html",
+      "sha256": "6a63f0b36be8da18af98f93d117c5937f646d49a314c0a7c347ef03f9f245e39"
+    },
+    {
+      "path": "module-redesign/polyfeed/polyfeed.css",
+      "sha256": "6877a4619f1fa40860f509a77203d62bb253ccd6c331fec847bf946fb4e97e60"
+    },
+    {
+      "path": "module-redesign/polyfeed/polyfeed.js",
+      "sha256": "10f91a1c1de2fbc2e22d17bf5a8d4db55432911c835dc126d01fce02530426af"
+    },
+    {
+      "path": "module-redesign/polyfeed/standalone.html",
+      "sha256": "f9784b013b9014550bb951c731d7b81a580ff33c886147e5a3a13f9cc0116d41"
+    },
+    {
+      "path": "module-redesign/recovery/index.html",
+      "sha256": "ea9df55f69d400e9b3f6532781dc289dc2c7e9629000db35cd7180141610c4a9"
+    },
+    {
+      "path": "module-redesign/recovery/recovery.css",
+      "sha256": "6cf3e5fafac8859002eb34a4a3aecc4de2e8410c2b49683e4ba6b9cd6c2bf02e"
+    },
+    {
+      "path": "module-redesign/recovery/recovery.js",
+      "sha256": "9e9a5d960c1ceda261101485eb0bcff2a1a585397733672e3f4790a3278f9834"
+    },
+    {
+      "path": "module-redesign/second-brain/brain.css",
+      "sha256": "2c8921c3776f48a3f94421006975ed2db91b931963885fcc7fc91f6a20af104e"
+    },
+    {
+      "path": "module-redesign/second-brain/brain.js",
+      "sha256": "baf5320d6ac47b46663d6afe4e4dbcc0e3bf1d91d8c03224f87547b1480349f2"
+    },
+    {
+      "path": "module-redesign/second-brain/index.html",
+      "sha256": "5f18cce0aa387f586e0e5b9e5163664d2b8a7cf0c35a78074d1d976ef0be9dbe"
+    },
+    {
+      "path": "module-redesign/studio/index.html",
+      "sha256": "12f685dfb7805e27327212132e0dff079d99c7c89160d6b7597dd98f4a51a134"
+    },
+    {
+      "path": "module-redesign/studio/studio.css",
+      "sha256": "f7f02fb905db07c9eb0be3197009a367e725853dea0e2bd33edd5023e0bf69ca"
+    },
+    {
+      "path": "module-redesign/studio/studio.js",
+      "sha256": "4221c28574b96915deceba4edfbd62277f3ae15016cda1c8f3988352ee1588a2"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "polylife-e1",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nuova applicazione PolyLife basata esclusivamente sui design E1 approvati.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev:web": "node scripts/e1-server.cjs",
+    "check:design": "node scripts/verify-e1-manifest.cjs",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "44.9.1",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "com.polymath.polylife.e1",
+    "productName": "PolyLife E1",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "app-shell.js",
+      "scripts/e1-server.cjs",
+      "design/APPROVED-E1-MANIFEST.json",
+      "design/hub-redesign/e1-strumentazione.html",
+      "design/hub-redesign/shared/**/*",
+      "design/module-redesign/**/*",
+      "!design/module-redesign/**/screenshots/**",
+      "!design/module-redesign/**/standalone.html",
+      "!design/module-redesign/**/*.md"
+    ]
+  }
+}

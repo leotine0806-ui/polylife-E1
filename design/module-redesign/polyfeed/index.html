@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PolyFeed · prototipo E1</title>
+  <link rel="stylesheet" href="../../hub-redesign/shared/base.css">
+  <link rel="stylesheet" href="../../hub-redesign/shared/hub-e.css">
+  <link rel="stylesheet" href="polyfeed.css">
+</head>
+<body class="tone-1">
+  <div class="banner">PROTOTIPO POLYFEED · CONTENUTI SINTETICI · XP SIMULATI · NESSUNA AI, RETE O PERSISTENZA</div>
+  <div class="pf-standalone-note" id="standaloneNotice" hidden>Il file HTML autonomo funziona da solo; i collegamenti ad altri prototipi richiedono la cartella completa <code>design/</code>.</div>
+  <div class="wrap">
+    <header class="top">
+      <div class="pagehead"><a class="chip back" href="../../hub-redesign/e1-strumentazione.html" aria-label="Torna all'Hub">← Hub</a><div class="lead"><div class="eyebrow">Curiosità, connessioni e sfide culturali</div><h1>POLY<span>LIFE</span> · POLYFEED</h1></div></div>
+      <div class="hdr-act"><button class="chip" id="appsBtn" type="button">⊞ Tutte le app</button><button class="chip" id="setBtn" type="button">⚙ Impostazioni</button></div>
+    </header>
+    <main>
+      <section class="pf-intro card" aria-labelledby="pf-intro-title"><div><div class="eyebrow">Esplora in pochi minuti</div><h2 id="pf-intro-title">Una curiosità. Un collegamento. Una prova concreta.</h2><p>Tre card per volta: scegli un tema, leggi e prova una sfida facoltativa. I riferimenti proposti vanno verificati prima di usarli come fonti.</p></div></section>
+      <section class="pf-controls card" aria-labelledby="pf-cats-title"><div class="pf-section-head"><h2 id="pf-cats-title">Scegli un'area</h2><span id="batchLabel" class="pf-muted">3 card · Scienza</span></div><div id="categories" class="pf-categories" role="group" aria-label="Categorie PolyFeed"></div><label class="pf-select-label" for="categorySelect">Area da esplorare <select id="categorySelect"></select></label><div class="pf-control-foot"><span>“Tutto” sceglie un'area per il gruppo, come nel prodotto attuale. La demo mostra un solo gruppo per area.</span><button class="pf-btn" id="newBatch" type="button">↻ Esplora un'altra area</button></div></section>
+      <div class="pf-layout"><section class="pf-main" aria-label="Card selezionata"><div id="feature"></div><div class="pf-nav"><button class="pf-btn" id="prev" type="button">← Precedente</button><span id="position">1 di 3</span><button class="pf-btn primary" id="next" type="button">Successiva →</button></div></section><aside class="pf-aside"><section class="card"><h2>Nel gruppo</h2><div id="queue" class="pf-queue"></div></section><section class="card"><h2>Sessione di prova</h2><div class="pf-session"><span>XP di questa prova</span><strong id="xpValue">0 <small>XP</small></strong><small>Solo simulazione in memoria · nessun premio su Life RPG</small></div><div id="summary" class="pf-summary"></div></section><section class="card pf-links"><h2>Continua in PolyLife</h2><a class="pf-link" href="../life-rpg/index.html">Life RPG · progressi e abilità</a><a class="pf-link" href="../second-brain/index.html">Second Brain · appunti e fonti</a><p>Il prototipo non trasferisce card, fonti o XP a queste sezioni.</p></section></aside></div>
+    </main>
+    <div id="live" class="pf-sr" role="status" aria-live="polite"></div>
+    <dialog id="dlg" aria-labelledby="dlgTitle"><div class="dh"><h2 id="dlgTitle"></h2><button class="chip" id="dlgClose" type="button" aria-label="Chiudi">✕</button></div><div class="db" id="dlgBody"></div></dialog>
+  </div>
+  <script src="polyfeed.js"></script>
+</body>
+</html>
